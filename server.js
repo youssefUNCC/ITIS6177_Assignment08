@@ -290,7 +290,7 @@ app.put('/companies', async (req, res) => {
         const company_city = req.query.city;
 
         console.log(company_id, company_name, company_city);
-        if (validateData(company_id, res)){
+        if (validateData(company_id, res) && (company_name != undefined) && (company_city) != undefined){
                 try{
                         await pool.query(`INSERT INTO company
                         (COMPANY_ID, COMPANY_NAME, COMPANY_CITY)
@@ -306,6 +306,10 @@ app.put('/companies', async (req, res) => {
                         res.status(500);
                         res.end(err.message || err.toString());
                 }
+        } else {
+                res.status(400);
+                res.send("Missing query");
+                res.end();
         }
 
                 
